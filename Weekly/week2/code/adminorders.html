@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All Orders - Admin</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f1f8e9;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      border-bottom: 1px solid #cfd8dc;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    }
+
+   .store-logo img {
+      height: 60px;
+      width: 180px;
+    }
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #33691e;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 4px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #00796b;
+      color: white;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 30px 0 10px;
+      color: #2e7d32;
+    }
+
+    #ordersContainer {
+      width: 90%;
+      max-width: 1000px;
+      margin: 0 auto 40px;
+    }
+
+    .order {
+      background: #ffffff;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 10px;
+      border-left: 5px solid #66bb6a;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease;
+    }
+
+    .order:hover {
+      transform: translateY(-4px);
+    }
+
+    .order h3 {
+      margin-bottom: 10px;
+      color: #1b5e20;
+    }
+
+    .order p {
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .order-item {
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      background: #f9fbe7;
+      border: 1px solid #c5e1a5;
+    }
+
+    .order-item strong {
+      font-size: 16px;
+      color: #33691e;
+    }
+
+    .price {
+      color: #558b2f;
+      font-weight: bold;
+    }
+
+    footer {
+      background-color: #ffffff;
+      color: #444;
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+      border-top: 1px solid #cfd8dc;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="store-logo">
+      <img src="logo.png" alt="Miggy Logo">
+    </div>
+    <nav>
+      <a href="adminhome.html">Home</a>
+      <a href="adminorders.html">All Orders</a>
+      <a href="login.html" onclick="localStorage.removeItem('loggedInUser')">Logout</a>
+    </nav>
+  </header>
+
+  <h2>All User Orders</h2>
+  <div id="ordersContainer"></div>
+
+  <footer>
+    &copy; 2025 Miggy. All rights reserved.
+  </footer>
+
+  <script>
+    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+    const container = document.getElementById("ordersContainer");
+
+    if (orders.length === 0) {
+      container.innerHTML = "<p style='text-align:center;'>No orders have been placed yet.</p>";
+    } else {
+      orders.forEach(order => {
+        const div = document.createElement("div");
+        div.className = "order";
+        div.innerHTML = `
+          <h3>Order #${order.id}</h3>
+          <p><strong>Username:</strong> ${order.username || 'Unknown'}</p>
+          <p><strong>Date:</strong> ${order.date}</p>
+        `;
+        order.items.forEach(item => {
+          div.innerHTML += `
+            <div class="order-item">
+              <strong>${item.name}</strong><br>
+              Quantity: ${item.quantity || 1}<br>
+              <span class="price">Price: ₹${item.price}</span>
+            </div>
+          `;
+        });
+        container.appendChild(div);
+      });
+    }
+  </script>
+
+</body>
+</html>

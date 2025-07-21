@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Confirmation</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #e0f7fa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      border-bottom: 1px solid #cfd8dc;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .store-name {
+      height: 20px;
+      width: 20px;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #00796b;
+      color: white;
+    }
+
+    .confirmation-container {
+      flex: 1;
+      background-color: #a5d6a7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .confirmation-message {
+      font-size: 40px;
+      font-weight: bold;
+      color: #000;
+      animation: bounce 1s infinite alternate;
+    }
+
+    @keyframes bounce {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.1); }
+    }
+
+    footer {
+      background-color: #ffffff;
+      color: #444;
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+      border-top: 1px solid #cfd8dc;
+      box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.05);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="store-name">
+      <img src="logo.png" style="height: 63px; width: 189px; margin-top: -22px;">
+    </div>
+    <nav>
+      <a href="userhome.html">Home</a>
+      <a href="cart.html">cart</a>
+        <a href="orders.html">orders</a>
+       <a href="login.html">logout</a>
+
+    </nav>
+  </header>
+
+  <div class="confirmation-container">
+    <div class="confirmation-message">Order Placed !!!</div>
+  </div>
+
+  <footer>
+    &copy; 2025 Miggy
+  </footer>
+
+</body>
+</html> 
