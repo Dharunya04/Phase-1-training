@@ -1,0 +1,55 @@
+/* Full-page background */
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+.container {
+  position: relative;
+  z-index: 2; /* Make sure content stays above the background */
+}
+
+/* Background image for the dashboard */
+body {
+  background-image: url("https://img.freepik.com/free-vector/medical-technology-science-background-vector-blue-with-blank-space_53876-117739.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Optional: dark overlay to make text more readable */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3); /* semi-transparent dark overlay */
+  z-index: 1;
+}
+
+/* Dashboard cards/forms */
+.p-3.border.rounded.bg-light.shadow-sm,
+.table-container {
+  background-color: rgba(255, 255, 255, 0.95); /* slightly transparent white */
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+/* Table headers */
+.table-dark {
+  background-color: rgba(0,0,0,0.8) !important;
+  color: #fff;
+}
+
+/* Navbar override for slight transparency */
+.navbar-dark.bg-dark {
+  background-color: rgba(0,0,0,0.85) !important;
+}
+.text-dark {
+    --bs-text-opacity: 1;
+    color: #fff !important;
+}
+

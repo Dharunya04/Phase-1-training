@@ -1,0 +1,48 @@
+/* Background image */
+.login-bg {
+  background-image: url("https://img.freepik.com/free-vector/medical-technology-science-background-vector-blue-with-blank-space_53876-117739.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Card style */
+.login-card {
+  background-color: rgba(255, 255, 255, 0.95); /* slightly transparent white */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  max-width: 400px;
+  width: 100%;
+}
+
+/* Input fields */
+.input-field {
+  background-color: #f0f0f0; /* light grey inputs */
+  color: #000; /* black text */
+  border: 1px solid #ccc;
+}
+
+.input-field:focus {
+  border-color: #000; /* black border on focus */
+  box-shadow: none;
+}
+
+/* Buttons */
+.btn-dark {
+  background-color: #000;
+  color: #fff;
+  border: none;
+}
+
+.btn-dark:hover {
+  background-color: #333;
+}
+
+/* Text */
+h1, h2 {
+  color: #000;
+}
+
+.text-muted {
+  color: #555 !important;
+}

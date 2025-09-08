@@ -1,0 +1,13 @@
+form[_ngcontent-cqg-c5]
+ {
+    background-color: #ffff;
+    padding: 1rem;
+    border-radius: 8px;
+}
+.btn.disabled, .btn:disabled, fieldset:disabled .btn {
+    color: var(--bs-btn-disabled-color);
+    pointer-events: none;
+    background-color: #000;
+    border-color: #000;
+    opacity: var(--bs-btn-disabled-opacity);
+}

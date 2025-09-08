@@ -1,0 +1,167 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold text-white" href="#">Clinic Management - Patient Dashboard</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNav" aria-controls="navbarNav"
+            aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link"
+             [ngClass]="{ active: activeForm === 'addPatient' }"
+             (click)="showForm('addPatient')">
+            Add Patient
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             [ngClass]="{ active: activeForm === 'viewPatients' }"
+             (click)="showForm('viewPatients')">
+            View Patients
+          </a>
+        </li>
+         <li class="nav-item">
+  <a class="nav-link" [routerLink]="['/login']">Logout</a>
+</li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container my-4">
+
+  <div class="card shadow-lg border-0 rounded-4 mx-auto" *ngIf="activeForm === 'addPatient'" style="max-width: 700px;">
+    <div class="card-header bg-dark text-white text-center py-3 rounded-top">
+      <h4 class="mb-0">Add New Patient</h4>
+    </div>
+    <div class="card-body bg-white p-4 text-dark">
+      <form [formGroup]="patientForm" (ngSubmit)="onSubmit()">
+
+        <div class="row mb-3">
+          <div class="col">
+            <input formControlName="firstName" class="form-control shadow-sm" placeholder="First Name" />
+          </div>
+          <div class="col">
+            <input formControlName="lastName" class="form-control shadow-sm" placeholder="Last Name" />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col">
+            <input type="date" formControlName="dateOfBirth" class="form-control shadow-sm" />
+          </div>
+          <div class="col">
+            <select formControlName="gender" class="form-control shadow-sm">
+              <option value="" disabled>Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+        </div>
+
+        <input formControlName="phoneNumber" class="form-control shadow-sm mb-3" placeholder="Phone Number" />
+        <input formControlName="email" class="form-control shadow-sm mb-3" placeholder="Email" />
+        <textarea formControlName="address" class="form-control shadow-sm mb-3" placeholder="Address"></textarea>
+
+        <div class="d-grid">
+          <button type="submit" class="btn btn-dark btn-lg shadow-sm">
+            <i class="bi bi-person-plus-fill me-2"></i> Add Patient
+          </button>
+        </div>
+      </form>
+
+      <div class="text-success mt-3 fw-semibold" *ngIf="successMessage">{{ successMessage }}</div>
+      <div class="text-danger mt-3 fw-semibold" *ngIf="errorMessage">{{ errorMessage }}</div>
+    </div>
+  </div>
+
+  <!-- ==================== VIEW PATIENTS ==================== -->
+  <div class="card shadow-lg border-0 rounded-4 mt-4" *ngIf="activeForm === 'viewPatients'">
+    <div class="card-header bg-dark text-white text-center py-3 rounded-top">
+      <h4 class="mb-0">Patients List</h4>
+    </div>
+    <div class="card-body bg-white p-4 text-dark">
+      <table class="table table-hover table-bordered shadow-sm text-center">
+        <thead class="table-dark">
+          <tr>
+            <th>Patient ID</th>
+            <th>Name</th>
+            <th>DOB</th>
+            <th>Gender</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let patient of patients">
+            <td>{{ patient.patientID }}</td>
+            <td>{{ patient.firstName }} {{ patient.lastName }}</td>
+            <td>{{ patient.dateOfBirth | date:'dd/MM/yyyy' }}</td>
+            <td>{{ patient.gender }}</td>
+            <td>
+              <button class="btn btn-primary btn-sm shadow-sm"
+                      (click)="showDoctorAvailability(patient.patientID)">
+                Book Appointment
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ==================== DOCTOR SELECTION ==================== -->
+  <div class="card shadow-lg border-0 rounded-4 mt-4" *ngIf="selectedPatientId" style="max-width: 700px; margin: auto;">
+    <div class="card-header bg-dark text-white text-center py-3 rounded-top">
+      <h5 class="mb-0">Select Doctor</h5>
+    </div>
+    <div class="card-body bg-white text-dark">
+      <div class="mb-3 text-center">
+        <button class="btn btn-outline-primary me-2 mb-2 shadow-sm"
+                *ngFor="let doctor of uniqueDoctors"
+                [class.active]="selectedDoctorId === doctor.doctorId"
+                (click)="selectDoctor(doctor.doctorId)">
+          Dr. {{ doctor.doctorName }} ({{ doctor.specialization }})
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SLOT SELECTION ==================== -->
+  <div class="card shadow-lg border-0 rounded-4 mt-4" *ngIf="selectedDoctorId" style="max-width: 700px; margin: auto;">
+    <div class="card-header bg-dark text-white text-center py-3 rounded-top">
+      <h5 class="mb-0">Available Slots</h5>
+    </div>
+    <div class="card-body bg-white text-dark">
+      <div *ngIf="filteredSlots.length === 0" class="text-danger mb-3 text-center">
+        No slots available.
+      </div>
+      <div class="mb-3 text-center">
+        <button class="btn btn-outline-secondary me-2 mb-2 shadow-sm"
+                *ngFor="let slot of filteredSlots"
+                [class.active]="selectedSlot?.date === slot.date && selectedSlot?.startTime === slot.startTime"
+                [disabled]="slot.isBooked"
+                (click)="selectSlot(slot)">
+          {{ slot.date | date:'dd/MM/yyyy' }} - {{ slot.startTime }} to {{ slot.endTime }}
+          <span *ngIf="slot.isBooked" class="badge bg-danger ms-1">Booked</span>
+        </button>
+      </div>
+
+      <form [formGroup]="appointmentForm" (ngSubmit)="bookAppointment()">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Reason for Visit</label>
+          <textarea formControlName="reasonForVisit" class="form-control shadow-sm"></textarea>
+        </div>
+        <div class="d-grid">
+          <button type="submit" class="btn btn-success btn-lg shadow-sm" [disabled]="!selectedSlot">
+            Confirm Appointment
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="mt-4 text-success fw-bold text-center" *ngIf="message">{{ message }}</div>
+</div>
